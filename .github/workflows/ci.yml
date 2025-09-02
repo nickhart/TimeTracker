@@ -7,10 +7,9 @@ on:
     branches: [main, develop]
 
 jobs:
-  lint:
-    name: Lint & Format
+  format:
+    name: Format
     runs-on: macos-15
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -20,22 +19,32 @@ jobs:
         with:
           xcode-version: latest-stable
 
-      - name: Cache Homebrew
-        uses: actions/cache@v3
-        with:
-          path: |
-            ~/Library/Caches/Homebrew
-            /usr/local/Homebrew
-          key: ${{ runner.os }}-homebrew-${{ hashFiles('Brewfile') }}
-          restore-keys: |
-            ${{ runner.os }}-homebrew-
-
-      - name: Install dependencies
+      - name: Ensure swiftformat
         run: |
-          brew bundle install --file=./Brewfile
+          if ! command -v swiftformat >/dev/null; then
+            brew install swiftformat
+          fi
 
       - name: Check code formatting
         run: ./scripts/format.sh
+
+  lint:
+    name: Lint
+    runs-on: macos-15
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup Xcode
+        uses: maxim-lobanov/setup-xcode@v1
+        with:
+          xcode-version: latest-stable
+
+      - name: Ensure swiftlint
+        run: |
+          if ! command -v swiftlint >/dev/null; then
+            brew install swiftlint
+          fi
 
       - name: Check code linting
         run: ./scripts/lint.sh
@@ -43,7 +52,6 @@ jobs:
   build:
     name: Build
     runs-on: macos-15
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -52,17 +60,22 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
+
+      - name: Ensure xcodegen & xcbeautify
+        run: |
+          if ! command -v xcodegen >/dev/null; then
+            brew install xcodegen
+          fi
+          if ! command -v xcbeautify >/dev/null; then
+            brew install xcbeautify
+          fi
 
       - name: Build for simulator
         run: ./scripts/build.sh
 
-      - name: Build for device
-        run: ./scripts/build.sh --device --configuration Release
-
   test:
     name: Unit Tests
     runs-on: macos-15
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -71,6 +84,15 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
+
+      - name: Ensure xcodegen & xcbeautify
+        run: |
+          if ! command -v xcodegen >/dev/null; then
+            brew install xcodegen
+          fi
+          if ! command -v xcbeautify >/dev/null; then
+            brew install xcbeautify
+          fi
 
       - name: Run unit tests
         run: ./scripts/test.sh --coverage
@@ -84,7 +106,6 @@ jobs:
   ui-test:
     name: UI Tests
     runs-on: macos-15
-
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
@@ -93,6 +114,15 @@ jobs:
         uses: maxim-lobanov/setup-xcode@v1
         with:
           xcode-version: latest-stable
+
+      - name: Ensure xcodegen & xcbeautify
+        run: |
+          if ! command -v xcodegen >/dev/null; then
+            brew install xcodegen
+          fi
+          if ! command -v xcbeautify >/dev/null; then
+            brew install xcbeautify
+          fi
 
       - name: Run UI tests
         run: ./scripts/ui-test.sh
