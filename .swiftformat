@@ -1,0 +1,60 @@
+# SwiftFormat configuration for TimeTracker
+
+# === Core spacing/width ===
+--indent 2
+--tabwidth 2
+--maxwidth 120
+--linebreaks lf
+--trimwhitespace always
+--insertlines true
+--removelines true
+
+# === Imports ===
+--importgrouping testable-bottom     # Keep @testable at the bottom and sort imports
+# (leave sortedImports enabled — default)
+
+# === Self & redundancy ===
+--self insert                        # Insert 'self.' where required (e.g., in closures)
+--redundantget true
+--redundantlet true
+--redundantletinit true
+--redundantnil true
+--redundantparens true
+--redundantpattern true
+--redundantrawvalues true
+--redundantself true                 # Remove unnecessary 'self.' outside closures
+--redundanttype true                 # Remove explicit types where initializer makes it obvious
+--redundantvoidreturntype true
+--redundantinit true
+
+# === Wrapping & parentheses ===
+--allman false
+--wraparguments before-first
+--wrapparameters after-first
+--wrapcollections before-first
+--closingparen balanced
+
+# === Attributes placement ===
+--funcattributes prev-line
+--typeattributes prev-line
+--varattributes preserve
+
+# === Control flow ===
+--guardelse auto
+--elseposition same-line
+--indentcase true
+--ifdef indent
+
+# === Semicolons & operators ===
+--semicolons never
+--operatorfunc spaced
+--ranges no-space                     # Prefer 0..<n (no spaces)
+
+# === Hygiene ===
+--stripunusedargs closure-only
+
+# === File organization ===
+--header strip
+
+# === Optional, toggle if you like the noise ===
+--typemark false
