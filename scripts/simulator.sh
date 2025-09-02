@@ -17,6 +17,9 @@ set -euo pipefail
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
 
+# Source helper functions
+source "$(dirname "${BASH_SOURCE[0]}")/_helpers.sh"
+
 show_help() {
   echo "Simulator Management Script"
   echo ""

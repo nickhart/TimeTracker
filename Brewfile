@@ -16,6 +16,8 @@ tap "yonaskolb/XcodeGen"
 brew "git"
 brew "make"
 brew "jq"
+# GitHub CLI for CI management
+brew "gh"
 
 # --- iOS / Swift Tooling ----------------------------------------------
 # Project generator from project.yml
