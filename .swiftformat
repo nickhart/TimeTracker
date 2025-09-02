@@ -15,7 +15,6 @@
 
 # === Self & redundancy ===
 --self insert                        # Insert 'self.' where required (e.g., in closures)
---redundantget true
 --redundantlet true
 --redundantletinit true
 --redundantnil true
