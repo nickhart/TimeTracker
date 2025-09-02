@@ -5,6 +5,10 @@
 ## macOS
 .DS_Store
 
+## AI agents
+CLAUDE.md
+.claude
+
 ## User settings
 xcuserdata/
 

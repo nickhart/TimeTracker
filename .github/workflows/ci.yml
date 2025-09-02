@@ -1,0 +1,98 @@
+name: CI
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  lint:
+    name: Lint & Format
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+    
+    - name: Cache Homebrew
+      uses: actions/cache@v3
+      with:
+        path: |
+          ~/Library/Caches/Homebrew
+          /usr/local/Homebrew
+        key: ${{ runner.os }}-homebrew-${{ hashFiles('Brewfile') }}
+        restore-keys: |
+          ${{ runner.os }}-homebrew-
+    
+    - name: Install dependencies
+      run: |
+        brew bundle install --file=./Brewfile
+    
+    - name: Check code formatting
+      run: ./scripts/format.sh
+    
+    - name: Check code linting
+      run: ./scripts/lint.sh
+
+  build:
+    name: Build
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+    
+    - name: Build for simulator
+      run: ./scripts/build.sh
+    
+    - name: Build for device
+      run: ./scripts/build.sh --device --configuration Release
+
+  test:
+    name: Unit Tests
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+    
+    - name: Run unit tests
+      run: ./scripts/test.sh --coverage
+    
+    - name: Upload coverage reports
+      uses: codecov/codecov-action@v3
+      with:
+        fail_ci_if_error: false
+        verbose: true
+
+  ui-test:
+    name: UI Tests
+    runs-on: macos-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+    
+    - name: Setup Xcode
+      uses: maxim-lobanov/setup-xcode@v1
+      with:
+        xcode-version: latest-stable
+    
+    - name: Run UI tests
+      run: ./scripts/ui-test.sh
