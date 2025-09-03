@@ -15,16 +15,6 @@
 
 # === Self & redundancy ===
 --self insert                        # Insert 'self.' where required (e.g., in closures)
---redundantlet true
---redundantletinit true
---redundantnil true
---redundantparens true
---redundantpattern true
---redundantrawvalues true
---redundantself true                 # Remove unnecessary 'self.' outside closures
---redundanttype true                 # Remove explicit types where initializer makes it obvious
---redundantvoidreturntype true
---redundantinit true
 
 # === Wrapping & parentheses ===
 --allman false
