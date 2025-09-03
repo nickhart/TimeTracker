@@ -168,7 +168,7 @@ if $COVERAGE && $RUN_UNIT_TESTS; then
   echo "==> Exporting code coverage report..."
 
   # Get the latest test results
-  DERIVED_DATA_PATH=$(xcodebuild -showBuildSettings -scheme TimeTracker | grep -m 1 "DERIVED_DATA_DIR" | grep -oE "\/.*")
+  DERIVED_DATA_PATH=$(xcodebuild -showBuildSettings -scheme TimeTracker -destination "$DESTINATION" | grep -m 1 "DERIVED_DATA_DIR" | grep -oE "\/.*")
   TEST_RESULTS=$(find "$DERIVED_DATA_PATH" -name "*.xcresult" | head -n 1)
 
   if [[ -n "$TEST_RESULTS" ]]; then
