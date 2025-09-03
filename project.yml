@@ -17,12 +17,16 @@ targets:
     type: application
     platform: iOS
     sources:
-      - TimeTracker/
+      - TimeTracker/App/
+      - TimeTracker/Core/
+      - TimeTracker/Features/
+      - TimeTracker/Shared/
+      - TimeTracker/LiveActivity/
     resources:
-      - TimeTracker/Assets.xcassets
-      - TimeTracker/TimeTracker.xcdatamodeld
+      - TimeTracker/Resources/Assets.xcassets
+      - TimeTracker/Core/Data/TimeTracker.xcdatamodeld
     info:
-      path: TimeTracker/Info.plist
+      path: TimeTracker/Resources/Info.plist
       properties:
         CFBundleName: TimeTracker
         CFBundleDisplayName: TimeTracker
@@ -45,7 +49,7 @@ targets:
         UIBackgroundModes:
           - remote-notification
     entitlements:
-      path: TimeTracker/TimeTracker.entitlements
+      path: TimeTracker/Resources/TimeTracker.entitlements
     settings:
       base:
         PRODUCT_BUNDLE_IDENTIFIER: com.nickhart.TimeTracker

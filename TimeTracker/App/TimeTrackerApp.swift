@@ -6,7 +6,7 @@ struct TimeTrackerApp: App {
 
   var body: some Scene {
     WindowGroup {
-      ContentView()
+      DashboardView()
         .environment(\.managedObjectContext, self.persistenceController.container.viewContext)
     }
   }

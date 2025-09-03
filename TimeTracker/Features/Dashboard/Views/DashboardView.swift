@@ -1,7 +1,7 @@
 import CoreData
 import SwiftUI
 
-struct ContentView: View {
+struct DashboardView: View {
   @Environment(\.managedObjectContext) private var viewContext
 
   @FetchRequest(
@@ -78,5 +78,5 @@ private let itemFormatter: DateFormatter = {
 }()
 
 #Preview {
-  ContentView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+  DashboardView().environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
 }

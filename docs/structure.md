@@ -1,40 +1,32 @@
 # Directory Structure & Files
 
+## Feature-Based Architecture
+
+This structure balances organization with simplicity, avoiding over-engineering while maintaining clean separation of concerns.
+
 ```
 TimeTracker/
 ├── App/
 │   ├── TimeTrackerApp.swift
-│   ├── AppDelegate.swift
 │   └── Configuration/
-│       ├── AppConstants.swift
 │       └── AppConfiguration.swift
 │
 ├── Core/
-│   ├── Models/
+│   ├── Data/
+│   │   ├── PersistenceController.swift
 │   │   ├── TimeTracker.xcdatamodeld
-│   │   ├── Client+CoreDataClass.swift
-│   │   ├── Client+CoreDataProperties.swift
-│   │   ├── Project+CoreDataClass.swift
-│   │   ├── Task+CoreDataClass.swift
-│   │   └── Settings+CoreDataClass.swift
+│   │   └── Models/
+│   │       ├── Client+CoreDataClass.swift
+│   │       ├── Client+CoreDataProperties.swift
+│   │       ├── Project+CoreDataClass.swift
+│   │       ├── TimeEntry+CoreDataClass.swift
+│   │       └── Settings+CoreDataClass.swift
 │   │
 │   ├── Services/
 │   │   ├── TimerService.swift
 │   │   ├── CloudKitSyncService.swift
 │   │   ├── NotificationService.swift
-│   │   ├── BillingCalculationService.swift
 │   │   └── LiveActivityService.swift
-│   │
-│   ├── Repositories/
-│   │   ├── Protocol/
-│   │   │   ├── ClientRepositoryProtocol.swift
-│   │   │   ├── ProjectRepositoryProtocol.swift
-│   │   │   └── TaskRepositoryProtocol.swift
-│   │   └── CoreData/
-│   │       ├── CoreDataStack.swift
-│   │       ├── ClientRepository.swift
-│   │       ├── ProjectRepository.swift
-│   │       └── TaskRepository.swift
 │   │
 │   └── Extensions/
 │       ├── Decimal+Currency.swift
@@ -43,72 +35,76 @@ TimeTracker/
 │
 ├── Features/
 │   ├── Timer/
-│   │   ├── ViewModels/
-│   │   │   ├── TimerViewModel.swift
-│   │   │   └── ActiveTimerViewModel.swift
 │   │   ├── Views/
 │   │   │   ├── TimerView.swift
 │   │   │   ├── TimerControlView.swift
-│   │   │   ├── ActiveTimerWidget.swift
-│   │   │   └── TimerButton.swift
+│   │   │   └── ActiveTimerWidget.swift
+│   │   ├── ViewModels/
+│   │   │   ├── TimerViewModel.swift
+│   │   │   └── ActiveTimerViewModel.swift
 │   │   └── Models/
 │   │       └── ActiveTimer.swift
 │   │
+│   ├── Dashboard/
+│   │   ├── Views/
+│   │   │   ├── DashboardView.swift
+│   │   │   ├── RecentEntriesView.swift
+│   │   │   └── QuickStatsView.swift
+│   │   └── ViewModels/
+│   │       └── DashboardViewModel.swift
+│   │
 │   ├── Clients/
-│   │   ├── ViewModels/
-│   │   │   ├── ClientsListViewModel.swift
-│   │   │   └── ClientDetailViewModel.swift
-│   │   └── Views/
-│   │       ├── ClientsListView.swift
-│   │       ├── ClientDetailView.swift
-│   │       ├── ClientRowView.swift
-│   │       └── EditClientView.swift
+│   │   ├── Views/
+│   │   │   ├── ClientsListView.swift
+│   │   │   ├── ClientDetailView.swift
+│   │   │   ├── ClientRowView.swift
+│   │   │   └── EditClientView.swift
+│   │   └── ViewModels/
+│   │       ├── ClientsListViewModel.swift
+│   │       └── ClientDetailViewModel.swift
 │   │
 │   ├── Projects/
-│   │   ├── ViewModels/
-│   │   │   ├── ProjectsListViewModel.swift
-│   │   │   └── ProjectDetailViewModel.swift
-│   │   └── Views/
-│   │       ├── ProjectsListView.swift
-│   │       ├── ProjectDetailView.swift
-│   │       └── EditProjectView.swift
+│   │   ├── Views/
+│   │   │   ├── ProjectsListView.swift
+│   │   │   ├── ProjectDetailView.swift
+│   │   │   └── EditProjectView.swift
+│   │   └── ViewModels/
+│   │       ├── ProjectsListViewModel.swift
+│   │       └── ProjectDetailViewModel.swift
 │   │
-│   ├── Tasks/
-│   │   ├── ViewModels/
-│   │   │   ├── TasksListViewModel.swift
-│   │   │   └── TaskDetailViewModel.swift
-│   │   └── Views/
-│   │       ├── TasksListView.swift
-│   │       ├── TaskDetailView.swift
-│   │       └── TaskRowView.swift
+│   ├── TimeEntries/
+│   │   ├── Views/
+│   │   │   ├── TimeEntriesListView.swift
+│   │   │   ├── TimeEntryDetailView.swift
+│   │   │   └── TimeEntryRowView.swift
+│   │   └── ViewModels/
+│   │       ├── TimeEntriesListViewModel.swift
+│   │       └── TimeEntryDetailViewModel.swift
 │   │
 │   ├── Reports/
-│   │   ├── ViewModels/
-│   │   │   └── ReportsViewModel.swift
-│   │   └── Views/
-│   │       ├── ReportsView.swift
-│   │       ├── ReportFilterView.swift
-│   │       └── ReportExportView.swift
+│   │   ├── Views/
+│   │   │   ├── ReportsView.swift
+│   │   │   ├── ReportFilterView.swift
+│   │   │   └── ReportExportView.swift
+│   │   └── ViewModels/
+│   │       └── ReportsViewModel.swift
 │   │
 │   └── Settings/
-│       ├── ViewModels/
-│       │   └── SettingsViewModel.swift
-│       └── Views/
-│           ├── SettingsView.swift
-│           └── DefaultsSettingsView.swift
+│       ├── Views/
+│       │   ├── SettingsView.swift
+│       │   └── DefaultsSettingsView.swift
+│       └── ViewModels/
+│           └── SettingsViewModel.swift
 │
 ├── Shared/
-│   ├── Views/
-│   │   ├── Components/
-│   │   │   ├── CurrencyTextField.swift
-│   │   │   ├── IncrementPicker.swift
-│   │   │   └── LoadingView.swift
-│   │   └── Modifiers/
-│   │       ├── CardStyle.swift
-│   │       └── ErrorAlert.swift
+│   ├── Components/
+│   │   ├── CurrencyTextField.swift
+│   │   ├── IncrementPicker.swift
+│   │   └── LoadingView.swift
 │   │
-│   ├── ViewModels/
-│   │   └── BaseViewModel.swift
+│   ├── Styles/
+│   │   ├── AppStyles.swift
+│   │   └── ColorScheme.swift
 │   │
 │   └── Utilities/
 │       ├── BillingCalculator.swift
@@ -127,33 +123,73 @@ TimeTracker/
 
 ## Test Structure
 
+Test structure mirrors the source code organization for easy navigation:
+
 ```
 TimeTrackerTests/
 ├── Core/
+│   ├── Data/
+│   │   ├── PersistenceControllerTests.swift
+│   │   └── Models/
+│   │       └── CoreDataModelTests.swift
+│   │
 │   ├── Services/
 │   │   ├── TimerServiceTests.swift
-│   │   ├── BillingCalculationServiceTests.swift
-│   │   └── CloudKitSyncServiceTests.swift
+│   │   ├── CloudKitSyncServiceTests.swift
+│   │   └── NotificationServiceTests.swift
 │   │
-│   ├── Repositories/
-│   │   ├── Mocks/
-│   │   │   ├── MockClientRepository.swift
-│   │   │   └── MockCoreDataStack.swift
-│   │   ├── ClientRepositoryTests.swift
-│   │   └── TaskRepositoryTests.swift
-│   │
-│   └── Utilities/
-│       └── BillingCalculatorTests.swift
+│   └── Extensions/
+│       ├── Date+FormattingTests.swift
+│       └── TimeInterval+DisplayTests.swift
 │
 ├── Features/
 │   ├── Timer/
-│   │   └── TimerViewModelTests.swift
+│   │   ├── ViewModels/
+│   │   │   └── TimerViewModelTests.swift
+│   │   └── Models/
+│   │       └── ActiveTimerTests.swift
+│   │
+│   ├── Dashboard/
+│   │   └── ViewModels/
+│   │       └── DashboardViewModelTests.swift
+│   │
 │   ├── Clients/
-│   │   └── ClientsListViewModelTests.swift
-│   └── Reports/
-│       └── ReportsViewModelTests.swift
+│   │   └── ViewModels/
+│   │       ├── ClientsListViewModelTests.swift
+│   │       └── ClientDetailViewModelTests.swift
+│   │
+│   ├── Projects/
+│   │   └── ViewModels/
+│   │       └── ProjectsListViewModelTests.swift
+│   │
+│   ├── TimeEntries/
+│   │   └── ViewModels/
+│   │       └── TimeEntriesListViewModelTests.swift
+│   │
+│   ├── Reports/
+│   │   └── ViewModels/
+│   │       └── ReportsViewModelTests.swift
+│   │
+│   └── Settings/
+│       └── ViewModels/
+│           └── SettingsViewModelTests.swift
+│
+├── Shared/
+│   └── Utilities/
+│       ├── BillingCalculatorTests.swift
+│       └── CSVExporterTests.swift
 │
 └── Helpers/
     ├── CoreDataTestStack.swift
-    └── TestData.swift
+    ├── TestData.swift
+    └── MockServices.swift
 ```
+
+## Architecture Benefits
+
+- **🎯 Feature-focused**: Related code grouped together
+- **🔍 Easy navigation**: Mirror structure in tests
+- **📦 Clean separation**: Core logic separate from UI
+- **🧪 Testable**: Clear boundaries for unit testing
+- **📈 Scalable**: Add features without restructuring
+- **🤝 Team-friendly**: Intuitive organization
