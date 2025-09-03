@@ -167,17 +167,23 @@ if $COVERAGE && $RUN_UNIT_TESTS; then
   echo ""
   echo "==> Exporting code coverage report..."
 
-  # Get the latest test results
-  DERIVED_DATA_PATH=$(xcodebuild -showBuildSettings -scheme TimeTracker -destination "$DESTINATION" ARCHS="$ARCHITECTURE" | grep -m 1 "DERIVED_DATA_DIR" | grep -oE "\/.*")
-  TEST_RESULTS=$(find "$DERIVED_DATA_PATH" -name "*.xcresult" | head -n 1)
+  # Find the most recent test results file for TimeTracker
+  TEST_RESULTS=$(find ~/Library/Developer/Xcode/DerivedData -name "*TimeTracker*.xcresult" -type d -mtime -1 | head -n 1)
 
   if [[ -n "$TEST_RESULTS" ]]; then
+    echo "Found test results: $TEST_RESULTS"
     # Export coverage report
-    xcrun xccov view "$TEST_RESULTS" --report --only-targets
-    echo ""
-    echo "Full coverage report available at: $TEST_RESULTS"
+    if xcrun xccov view "$TEST_RESULTS" --report --only-targets; then
+      echo ""
+      echo "Full coverage report available at: $TEST_RESULTS"
+    else
+      echo "Warning: Failed to generate coverage report"
+      exit 0  # Don't fail the entire script for coverage issues
+    fi
   else
     echo "Warning: Could not find test results for coverage report"
+    echo "Available xcresult files:"
+    find ~/Library/Developer/Xcode/DerivedData -name "*.xcresult" -type d | head -5
   fi
 fi
 
