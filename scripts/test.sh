@@ -1,14 +1,16 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Test script for TimeTracker unit tests
+# Test script for TimeTracker tests
 # Usage:
-#   ./scripts/test.sh                              # Run all tests (default)
+#   ./scripts/test.sh                              # Run unit tests only (default)
+#   ./scripts/test.sh --ui                         # Run UI tests only
+#   ./scripts/test.sh --all                        # Run both unit and UI tests
 #   ./scripts/test.sh --arch arm64                 # Specify architecture (arm64/x86_64)
 #   ./scripts/test.sh --device-name "iPhone 16"   # Specify simulator device
 #   ./scripts/test.sh --os 18.5                   # Specify iOS version
 #   ./scripts/test.sh --configuration Release     # Run with specific configuration
-#   ./scripts/test.sh --coverage                  # Generate code coverage
+#   ./scripts/test.sh --coverage                  # Generate code coverage (unit tests only)
 
 ROOT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "$ROOT_DIR"
@@ -25,6 +27,8 @@ OS_VERSION="18.5"
 ARCHITECTURE=""
 CONFIGURATION="Debug"
 COVERAGE=false
+RUN_UI_TESTS=false
+RUN_UNIT_TESTS=true
 
 # Parse arguments
 while [[ $# -gt 0 ]]; do
@@ -52,21 +56,35 @@ while [[ $# -gt 0 ]]; do
       COVERAGE=true
       shift
       ;;
+    --ui)
+      RUN_UI_TESTS=true
+      RUN_UNIT_TESTS=false
+      shift
+      ;;
+    --all)
+      RUN_UI_TESTS=true
+      RUN_UNIT_TESTS=true
+      shift
+      ;;
     --help|-h)
-      echo "Test script for TimeTracker unit tests"
+      echo "Test script for TimeTracker tests"
       echo ""
       echo "OPTIONS:"
+      echo "  --ui                         Run UI tests only"
+      echo "  --all                        Run both unit and UI tests"
       echo "  --arch <arm64|x86_64>        Specify architecture (default: native)"
       echo "  --device-name <name>         Simulator device name (default: iPhone 16)"
       echo "  --os <version>               iOS version (default: 18.5)"
       echo "  --configuration <config>     Test configuration: Debug|Release (default: Debug)"
-      echo "  --coverage                   Enable code coverage collection"
+      echo "  --coverage                   Enable code coverage collection (unit tests only)"
       echo "  --help, -h                   Show this help"
       echo ""
       echo "EXAMPLES:"
-      echo "  $0                           # Run tests with native arch"
+      echo "  $0                           # Run unit tests with native arch"
+      echo "  $0 --ui                      # Run UI tests only"
+      echo "  $0 --all                     # Run both unit and UI tests"
       echo "  $0 --arch x86_64             # Run tests on x86_64 simulator"
-      echo "  $0 --coverage                # Run tests with coverage"
+      echo "  $0 --coverage                # Run unit tests with coverage"
       echo "  $0 --device-name 'iPhone 16' --os 18.2"
       exit 0
       ;;
@@ -100,12 +118,24 @@ case $dest_status in
     ;;
 esac
 
-echo "==> Running TimeTracker unit tests..."
+# Determine what tests to run
+if $RUN_UNIT_TESTS && $RUN_UI_TESTS; then
+  TEST_TYPE="both unit and UI tests"
+  TESTING_FLAGS=""
+elif $RUN_UI_TESTS; then
+  TEST_TYPE="UI tests"
+  TESTING_FLAGS="-only-testing TimeTrackerUITests"
+else
+  TEST_TYPE="unit tests"
+  TESTING_FLAGS="-skip-testing TimeTrackerUITests"
+fi
+
+echo "==> Running TimeTracker $TEST_TYPE..."
 echo "    Configuration: $CONFIGURATION"
 echo "    Architecture: $ARCHITECTURE"
 echo "    Device: $DEVICE_NAME (iOS $OS_VERSION)"
 echo "    Destination: $DESTINATION"
-if $COVERAGE; then
+if $COVERAGE && $RUN_UNIT_TESTS; then
   echo "    Code Coverage: Enabled"
 fi
 
@@ -118,7 +148,13 @@ XCODEBUILD_CMD=(
   ARCHS="$ARCHITECTURE"
 )
 
-if $COVERAGE; then
+# Add testing flags
+if [[ -n "$TESTING_FLAGS" ]]; then
+  XCODEBUILD_CMD+=($TESTING_FLAGS)
+fi
+
+# Add coverage only for unit tests
+if $COVERAGE && $RUN_UNIT_TESTS; then
   XCODEBUILD_CMD+=(
     -enableCodeCoverage YES
   )
@@ -127,7 +163,7 @@ fi
 # Run the tests
 "${XCODEBUILD_CMD[@]}"
 
-if $COVERAGE; then
+if $COVERAGE && $RUN_UNIT_TESTS; then
   echo ""
   echo "==> Exporting code coverage report..."
 
@@ -145,4 +181,4 @@ if $COVERAGE; then
   fi
 fi
 
-echo " Unit tests completed successfully"
+echo "✅ $TEST_TYPE completed successfully"

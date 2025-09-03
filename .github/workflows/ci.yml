@@ -125,4 +125,4 @@ jobs:
           fi
 
       - name: Run UI tests
-        run: ./scripts/ui-test.sh
+        run: ./scripts/test.sh --ui
