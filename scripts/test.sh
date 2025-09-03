@@ -21,6 +21,12 @@ source "$(dirname "${BASH_SOURCE[0]}")/_helpers.sh"
 # Check dependencies
 check_dependencies
 
+# Generate Xcode project if it doesn't exist
+if [[ ! -d "TimeTracker.xcodeproj" ]]; then
+  echo "==> Generating Xcode project..."
+  xcodegen generate
+fi
+
 # Default values
 DEVICE_NAME="iPhone 16"
 OS_VERSION="18.5"

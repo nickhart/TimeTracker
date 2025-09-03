@@ -1,0 +1,98 @@
+name: TimeTracker
+options:
+  bundleIdPrefix: com.nickhart
+  createIntermediateGroups: true
+  defaultConfig: Release
+  xcodeVersion: "15.0"
+
+settings:
+  base:
+    SWIFT_VERSION: 5.10
+    IPHONEOS_DEPLOYMENT_TARGET: 15.0
+    MARKETING_VERSION: 1.0
+    CURRENT_PROJECT_VERSION: 1
+
+targets:
+  TimeTracker:
+    type: application
+    platform: iOS
+    sources:
+      - TimeTracker/
+    resources:
+      - TimeTracker/Assets.xcassets
+      - TimeTracker/TimeTracker.xcdatamodeld
+    info:
+      path: TimeTracker/Info.plist
+      properties:
+        CFBundleName: TimeTracker
+        CFBundleDisplayName: TimeTracker
+        CFBundleIdentifier: com.nickhart.TimeTracker
+        CFBundleVersion: $(CURRENT_PROJECT_VERSION)
+        CFBundleShortVersionString: $(MARKETING_VERSION)
+        LSRequiresIPhoneOS: true
+        UILaunchScreen:
+          UIColorName: ""
+          UIImageName: ""
+        UISupportedInterfaceOrientations:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UISupportedInterfaceOrientations~ipad:
+          - UIInterfaceOrientationPortrait
+          - UIInterfaceOrientationPortraitUpsideDown
+          - UIInterfaceOrientationLandscapeLeft
+          - UIInterfaceOrientationLandscapeRight
+        UIBackgroundModes:
+          - remote-notification
+    entitlements:
+      path: TimeTracker/TimeTracker.entitlements
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nickhart.TimeTracker
+        ENABLE_PREVIEWS: true
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+
+  TimeTrackerTests:
+    type: bundle.unit-test
+    platform: iOS
+    sources:
+      - TimeTrackerTests/
+    dependencies:
+      - target: TimeTracker
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nickhart.TimeTrackerTests
+        GENERATE_INFOPLIST_FILE: YES
+        BUNDLE_LOADER: $(TEST_HOST)
+        TEST_HOST: $(BUILT_PRODUCTS_DIR)/TimeTracker.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/TimeTracker
+
+  TimeTrackerUITests:
+    type: bundle.ui-testing
+    platform: iOS
+    sources:
+      - TimeTrackerUITests/
+    dependencies:
+      - target: TimeTracker
+    settings:
+      base:
+        PRODUCT_BUNDLE_IDENTIFIER: com.nickhart.TimeTrackerUITests
+        GENERATE_INFOPLIST_FILE: YES
+        TEST_TARGET_NAME: TimeTracker
+
+schemes:
+  TimeTracker:
+    build:
+      targets:
+        TimeTracker: all
+        TimeTrackerTests: [test]
+        TimeTrackerUITests: [test]
+    run:
+      config: Debug
+    test:
+      config: Debug
+      targets:
+        - TimeTrackerTests
+        - TimeTrackerUITests
+    archive:
+      config: Release
