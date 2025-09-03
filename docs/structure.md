@@ -15,18 +15,23 @@ TimeTracker/
 │   ├── Data/
 │   │   ├── PersistenceController.swift
 │   │   ├── TimeTracker.xcdatamodeld
-│   │   └── Models/
-│   │       ├── Client+CoreDataClass.swift
-│   │       ├── Client+CoreDataProperties.swift
-│   │       ├── Project+CoreDataClass.swift
-│   │       ├── TimeEntry+CoreDataClass.swift
-│   │       └── Settings+CoreDataClass.swift
+│   │   └── Extensions/
+│   │       ├── Client+CoreData.swift
+│   │       ├── Project+CoreData.swift  
+│   │       ├── Task+CoreData.swift
+│   │       └── Settings+CoreData.swift
 │   │
 │   ├── Services/
 │   │   ├── TimerService.swift
 │   │   ├── CloudKitSyncService.swift
 │   │   ├── NotificationService.swift
 │   │   └── LiveActivityService.swift
+│   │
+│   ├── StoreKit/
+│   │   ├── StoreKitManager.swift
+│   │   ├── PremiumFeatureManager.swift
+│   │   ├── PurchaseValidator.swift
+│   │   └── ProductIdentifiers.swift
 │   │
 │   └── Extensions/
 │       ├── Decimal+Currency.swift
@@ -89,12 +94,22 @@ TimeTracker/
 │   │   └── ViewModels/
 │   │       └── ReportsViewModel.swift
 │   │
-│   └── Settings/
+│   ├── Settings/
+│   │   ├── Views/
+│   │   │   ├── SettingsView.swift
+│   │   │   └── DefaultsSettingsView.swift
+│   │   └── ViewModels/
+│   │       └── SettingsViewModel.swift
+│   │
+│   └── Premium/
 │       ├── Views/
-│       │   ├── SettingsView.swift
-│       │   └── DefaultsSettingsView.swift
+│       │   ├── PaywallView.swift
+│       │   ├── PremiumFeatureCard.swift
+│       │   ├── PurchaseButton.swift
+│       │   ├── RestorePurchasesView.swift
+│       │   └── SubscriptionStatusView.swift
 │       └── ViewModels/
-│           └── SettingsViewModel.swift
+│           └── PaywallViewModel.swift
 │
 ├── Shared/
 │   ├── Components/
@@ -125,6 +140,12 @@ TimeTracker/
 
 Test structure mirrors the source code organization for easy navigation:
 
+### Test Naming Convention
+- **Extension files**: `Type+Category.swift` → **Test files**: `TypeCategoryTests.swift`  
+- **Example**: `Client+CoreData.swift` → `ClientCoreDataTests.swift`
+- **Class name matches file name**: `ClientCoreDataTests`
+- **No "+" in test file names** - follows industry best practices
+
 ```
 TimeTrackerTests/
 ├── Core/
@@ -137,6 +158,11 @@ TimeTrackerTests/
 │   │   ├── TimerServiceTests.swift
 │   │   ├── CloudKitSyncServiceTests.swift
 │   │   └── NotificationServiceTests.swift
+│   │
+│   ├── StoreKit/
+│   │   ├── StoreKitManagerTests.swift
+│   │   ├── PremiumFeatureManagerTests.swift
+│   │   └── PurchaseValidatorTests.swift
 │   │
 │   └── Extensions/
 │       ├── Date+FormattingTests.swift
@@ -170,9 +196,13 @@ TimeTrackerTests/
 │   │   └── ViewModels/
 │   │       └── ReportsViewModelTests.swift
 │   │
-│   └── Settings/
+│   ├── Settings/
+│   │   └── ViewModels/
+│   │       └── SettingsViewModelTests.swift
+│   │
+│   └── Premium/
 │       └── ViewModels/
-│           └── SettingsViewModelTests.swift
+│           └── PaywallViewModelTests.swift
 │
 ├── Shared/
 │   └── Utilities/

@@ -20,6 +20,9 @@ cd "$ROOT_DIR"
 if $FIX_MODE; then
   echo "==> Running SwiftFormat (auto-fix)..."
   swiftformat .
+  
+  echo "==> Running SwiftLint (auto-fix where possible)..."
+  swiftlint --fix
 else
   echo "==> Checking SwiftFormat (lint)..."
   swiftformat --lint .

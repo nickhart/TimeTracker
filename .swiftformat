@@ -43,7 +43,7 @@
 --stripunusedargs closure-only
 
 # === File organization ===
---header strip
+--header ignore
 
 # === Optional, toggle if you like the noise ===
 --typemark false

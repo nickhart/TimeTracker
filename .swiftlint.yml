@@ -109,6 +109,11 @@ type_name:
     error: 70
   excluded:
     - ID # Common identifier type alias
+  validates_start_with_lowercase: false # Allow test structs to start with uppercase
+
+file_name:
+  excluded:
+    - "*Tests.swift" # Test files exempt from file_name validation
 
 # Custom rules for learning best practices
 custom_rules:
