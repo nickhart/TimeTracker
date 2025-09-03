@@ -16,9 +16,9 @@ excluded:
   - fastlane/
   - .swiftpm/
   - Carthage/
-  - **/*.generated.swift
-  - **/*+Generated.swift
-  - **/*.g.swift
+  - "*.generated.swift"
+  - "*+Generated.swift"
+  - "*.g.swift"
   - Package.resolved
 
 opt_in_rules:
