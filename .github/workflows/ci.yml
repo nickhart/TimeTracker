@@ -50,7 +50,7 @@ jobs:
         run: ./scripts/lint.sh
 
   test:
-    name: Unit Tests
+    name: Build and App Tests
     runs-on: macos-15
     steps:
       - name: Checkout code
@@ -71,7 +71,7 @@ jobs:
           fi
 
       - name: Run unit tests
-        run: ./scripts/test.sh --coverage
+        run: ./scripts/test.sh --coverage --configuration Release
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
