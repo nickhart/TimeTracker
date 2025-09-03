@@ -1,5 +1,5 @@
 //
-//  ActiveTimerWidget.swift
+//  TimerWidget.swift
 //  TimeTracker
 //
 //  Created by Nick Hart on 9/3/25.

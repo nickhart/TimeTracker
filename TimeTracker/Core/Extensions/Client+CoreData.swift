@@ -5,8 +5,8 @@
 //  Created by Nick Hart on 9/3/25.
 //
 
-import Foundation
 import CoreData
+import Foundation
 
 public extension Client {
   override func awakeFromInsert() {

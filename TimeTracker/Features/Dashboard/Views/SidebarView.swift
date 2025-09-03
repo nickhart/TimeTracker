@@ -8,9 +8,9 @@
 import SwiftUI
 
 enum SidebarItem: Hashable {
-    case dashboard
-    case settings
-    case client(Client)
+  case dashboard
+  case settings
+  case client(Client)
 }
 
 struct SidebarView: View {
