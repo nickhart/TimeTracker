@@ -3,8 +3,8 @@
 # Brewfile for TimeTracker
 # Usage:
 #   brew bundle install --file=./Brewfile
-#   brew bundle lock     --file=./Brewfile   # create/update Brewfile.lock.json
 #   brew bundle cleanup  --file=./Brewfile   # show what would be removed
+#   brew bundle check    --file=./Brewfile   # check if all dependencies are installed
 
 # --- Core Dev Utilities -----------------------------------------------
 brew "git"
@@ -24,6 +24,5 @@ brew "swiftformat"
 brew "xcbeautify"
 
 # --- Notes -------------------------------------------------------------
-# Homebrew doesn’t pin exact versions in Brewfiles; use `brew bundle lock` to
-# generate Brewfile.lock.json for reproducible installs in CI.
+# Homebrew doesn't pin exact versions in Brewfiles by design.
 # All formulas are available in homebrew-core (no custom taps needed).

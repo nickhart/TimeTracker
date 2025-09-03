@@ -1,5 +1,4 @@
 # SwiftLint Configuration
-swiftlint_version: 0.59.1
 reporter: "xcode"
 
 # Include all Swift files
