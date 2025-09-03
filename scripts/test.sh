@@ -172,10 +172,17 @@ if $COVERAGE && $RUN_UNIT_TESTS; then
 
   if [[ -n "$TEST_RESULTS" ]]; then
     echo "Found test results: $TEST_RESULTS"
-    # Export coverage report
+    # Export coverage report for display
     if xcrun xccov view "$TEST_RESULTS" --report --only-targets; then
       echo ""
       echo "Full coverage report available at: $TEST_RESULTS"
+      
+      # Export coverage data for Codecov (if running in CI)
+      if [[ -n "${CI:-}" ]]; then
+        echo "Exporting coverage data for Codecov..."
+        xcrun xccov view --report --json "$TEST_RESULTS" > coverage.json
+        echo "Coverage data exported to coverage.json"
+      fi
     else
       echo "Warning: Failed to generate coverage report"
       exit 0  # Don't fail the entire script for coverage issues
