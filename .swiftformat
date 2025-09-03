@@ -1,8 +1,8 @@
 # SwiftFormat configuration for TimeTracker
 
 # === Core spacing/width ===
---indent 2
---tabwidth 2
+--indent 4
+--tabwidth 4
 --maxwidth 120
 --linebreaks lf
 --trimwhitespace always
@@ -47,3 +47,6 @@
 
 # === Optional, toggle if you like the noise ===
 --typemark false
+
+# === Disable conflicting rules ===
+--disable wrapMultilineStatementBraces

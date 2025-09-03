@@ -9,33 +9,33 @@ import SwiftUI
 
 @main
 struct TimeTrackerApp: App {
-  let persistenceController = PersistenceController.shared
+    let persistenceController = PersistenceController.shared
 
-  var body: some Scene {
-    WindowGroup {
-      if UIDevice.isPhone {
-        VStack {
-          NavigationSplitView {
-            SidebarView()
-          }
-          detail: {
-            RootDashboardView()
-              .environment(\.managedObjectContext, self.persistenceController.container.viewContext)
-          }
-          TimerWidget()
+    var body: some Scene {
+        WindowGroup {
+            if UIDevice.isPhone {
+                VStack {
+                    NavigationSplitView {
+                        SidebarView()
+                    }
+                    detail: {
+                        RootDashboardView()
+                            .environment(\.managedObjectContext, self.persistenceController.container.viewContext)
+                    }
+                    TimerWidget()
+                }
+            } else {
+                ZStack {
+                    NavigationSplitView {
+                        SidebarView()
+                    }
+                    detail: {
+                        RootDashboardView()
+                            .environment(\.managedObjectContext, self.persistenceController.container.viewContext)
+                    }
+                    FloatingTimerWidget()
+                }
+            }
         }
-      } else {
-        ZStack {
-          NavigationSplitView {
-            SidebarView()
-          }
-          detail: {
-            RootDashboardView()
-              .environment(\.managedObjectContext, self.persistenceController.container.viewContext)
-          }
-          FloatingTimerWidget()
-        }
-      }
     }
-  }
 }

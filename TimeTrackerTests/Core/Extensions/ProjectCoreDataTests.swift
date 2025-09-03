@@ -1,16 +1,17 @@
 //
-//  ClientCoreDataTests.swift
-//  TimeTracker
+//  ProjectCoreDataTests.swift
+//  TimeTrackerTests
 //
 //  Created by Nick Hart on 9/3/25.
 //
 
-import CoreData
 import Testing
+
+import CoreData
 @testable import TimeTracker
 
 @Suite(.serialized)
-final class ClientCoreDataTests {
+final class ProjectCoreDataTests {
     let container: NSPersistentContainer
     let context: NSManagedObjectContext
 
@@ -33,51 +34,51 @@ final class ClientCoreDataTests {
     }
 
     @Test
-    func clientCreationSetsTimestamps() async throws {
-        let client = Client(context: context)
-        #expect(client.id != nil)
-        #expect(client.createdAt != nil)
-        #expect(client.modifiedAt != nil)
+    func projectCreationSetsTimestamps() async throws {
+        let project = Project(context: context)
+        #expect(project.id != nil)
+        #expect(project.createdAt != nil)
+        #expect(project.modifiedAt != nil)
     }
 
     @Test
     func modifiedAtUpdatesOnSave() async throws {
-        let client = Client(context: context)
+        let project = Project(context: context)
 
         // Set initial timestamps manually (bypassing awakeFromInsert behavior)
         let initialDate = Date(timeIntervalSince1970: 1000)
-        client.createdAt = initialDate
-        client.modifiedAt = initialDate
-        client.name = "Initial Name"
+        project.createdAt = initialDate
+        project.modifiedAt = initialDate
+        project.name = "Initial Name"
         try self.context.save()
 
         // Verify initial state
-        #expect(client.modifiedAt == initialDate)
+        #expect(project.modifiedAt == initialDate)
 
         // Make a change and save
-        client.name = "Updated Name"
+        project.name = "Updated Name"
         try self.context.save()
 
         // modifiedAt should now be newer than our initial date
-        #expect(client.modifiedAt! > initialDate)
-        #expect(client.createdAt == initialDate) // createdAt should not change
+        #expect(project.modifiedAt! > initialDate)
+        #expect(project.createdAt == initialDate) // createdAt should not change
     }
 
     @Test
     func modifiedAtOnlyUpdatesOnActualChanges() async throws {
-        let client = Client(context: context)
+        let project = Project(context: context)
 
         // Set initial state
         let initialDate = Date(timeIntervalSince1970: 1000)
-        client.createdAt = initialDate
-        client.modifiedAt = initialDate
-        client.name = "Test Client"
+        project.createdAt = initialDate
+        project.modifiedAt = initialDate
+        project.name = "Test Project"
         try self.context.save()
 
         // Save again without changes
         try self.context.save()
 
         // modifiedAt should not have changed
-        #expect(client.modifiedAt == initialDate)
+        #expect(project.modifiedAt == initialDate)
     }
 }

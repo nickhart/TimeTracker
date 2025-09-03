@@ -8,11 +8,11 @@
 import UIKit
 
 extension UIDevice {
-  static var isPhone: Bool {
-    current.userInterfaceIdiom == .phone
-  }
+    static var isPhone: Bool {
+        current.userInterfaceIdiom == .phone
+    }
 
-  static var isPad: Bool {
-    current.userInterfaceIdiom == .pad
-  }
+    static var isPad: Bool {
+        current.userInterfaceIdiom == .pad
+    }
 }
