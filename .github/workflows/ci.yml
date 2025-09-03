@@ -71,7 +71,7 @@ jobs:
           fi
 
       - name: Run unit tests
-        run: ./scripts/test.sh --coverage --configuration Release
+        run: ./scripts/test.sh --coverage
 
       - name: Upload coverage reports
         uses: codecov/codecov-action@v3
