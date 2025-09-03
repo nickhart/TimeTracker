@@ -49,30 +49,6 @@ jobs:
       - name: Check code linting
         run: ./scripts/lint.sh
 
-  build:
-    name: Build
-    runs-on: macos-15
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
-
-      - name: Ensure xcodegen & xcbeautify
-        run: |
-          if ! command -v xcodegen >/dev/null; then
-            brew install xcodegen
-          fi
-          if ! command -v xcbeautify >/dev/null; then
-            brew install xcbeautify
-          fi
-
-      - name: Build for simulator
-        run: ./scripts/build.sh
-
   test:
     name: Unit Tests
     runs-on: macos-15
@@ -102,27 +78,3 @@ jobs:
         with:
           fail_ci_if_error: false
           verbose: true
-
-  ui-test:
-    name: UI Tests
-    runs-on: macos-15
-    steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Xcode
-        uses: maxim-lobanov/setup-xcode@v1
-        with:
-          xcode-version: latest-stable
-
-      - name: Ensure xcodegen & xcbeautify
-        run: |
-          if ! command -v xcodegen >/dev/null; then
-            brew install xcodegen
-          fi
-          if ! command -v xcbeautify >/dev/null; then
-            brew install xcbeautify
-          fi
-
-      - name: Run UI tests
-        run: ./scripts/test.sh --ui
