@@ -22,7 +22,7 @@ struct TimeTrackerApp: App {
                         RootDashboardView()
                             .environment(\.managedObjectContext, self.persistenceController.container.viewContext)
                     }
-                    TimerWidget()
+                    TimerWidget(context: self.persistenceController.container.viewContext)
                 }
             } else {
                 ZStack {

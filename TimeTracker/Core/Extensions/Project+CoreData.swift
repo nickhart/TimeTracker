@@ -8,6 +8,8 @@
 import CoreData
 import Foundation
 
+// MARK: - CoreData lifecycle
+
 public extension Project {
     override func awakeFromInsert() {
         super.awakeFromInsert()
@@ -23,4 +25,19 @@ public extension Project {
             setPrimitiveValue(Date(), forKey: "modifiedAt")
         }
     }
+}
+
+// MARK: - computed properties
+
+extension Project {
+    var tasksArray: [Task] {
+        (tasks?.allObjects as? [Task] ?? [])
+            .sorted { ($0.name ?? "") < ($1.name ?? "") }
+    }
+}
+
+// MARK: - CustomStringConvertible
+
+public extension Project {
+    override var description: String { name ?? "Unnamed Project" }
 }

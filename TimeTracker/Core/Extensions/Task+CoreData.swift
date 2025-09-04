@@ -8,6 +8,8 @@
 import CoreData
 import Foundation
 
+// MARK: - CoreData lifecycle
+
 public extension Task {
     override func awakeFromInsert() {
         super.awakeFromInsert()
@@ -23,4 +25,10 @@ public extension Task {
             setPrimitiveValue(Date(), forKey: "modifiedAt")
         }
     }
+}
+
+// MARK: - CustomStringConvertible
+
+public extension Task {
+    override var description: String { name ?? "Unnamed Task" }
 }

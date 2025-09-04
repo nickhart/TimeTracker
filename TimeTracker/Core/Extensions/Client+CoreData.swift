@@ -8,6 +8,8 @@
 import CoreData
 import Foundation
 
+// MARK: - CoreData lifecycle
+
 public extension Client {
     override func awakeFromInsert() {
         super.awakeFromInsert()
@@ -32,4 +34,27 @@ public extension Client {
             setPrimitiveValue(Date(), forKey: "modifiedAt")
         }
     }
+}
+
+// MARK: - computed properties
+
+extension Client {
+    var projectsArray: [Project] {
+        let result = (projects?.allObjects as? [Project] ?? [])
+            .sorted { ($0.name ?? "") < ($1.name ?? "") }
+
+        print("projects for \(self.name ?? "nil"): \(result.count)")
+        return result
+    }
+
+    var tasksArray: [Task] {
+        (tasks?.allObjects as? [Task] ?? [])
+            .sorted { ($0.name ?? "") < ($1.name ?? "") }
+    }
+}
+
+// MARK: - CustomStringConvertible
+
+public extension Client {
+    override var description: String { name ?? "Unnamed Client" }
 }
