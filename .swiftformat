@@ -31,7 +31,7 @@
 # === Control flow ===
 --guardelse auto
 --elseposition same-line
---indentcase true
+--indentcase false
 --ifdef indent
 
 # === Semicolons & operators ===

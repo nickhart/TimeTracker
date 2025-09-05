@@ -9,15 +9,11 @@ import CoreData
 import SwiftUI
 
 struct TimerWidget: View {
-    @StateObject private var viewModel: TimerViewModel
-
-    init(context: NSManagedObjectContext) {
-        self._viewModel = StateObject(wrappedValue: TimerViewModel(context: context))
-    }
+    @StateObject var viewModel: TimerViewModel
 
     var body: some View {
-        VStack(spacing: 10) {
-            HStack(spacing: 10) {
+        VStack(spacing: 8) {
+            HStack(spacing: 8) {
                 TextField(
                     "Task name",
                     text: self.$viewModel.taskName,
@@ -35,7 +31,7 @@ struct TimerWidget: View {
                 )
                 .accessibilityIdentifier("timer-control-button")
             }
-            HStack(spacing: 10) {
+            HStack(spacing: 8) {
                 SelectionMenu(
                     title: "Select Client",
                     items: self.viewModel.availableClients,
@@ -50,10 +46,20 @@ struct TimerWidget: View {
                 )
             }
         }
-        .padding(10)
+        .padding(8)
+        .constrainedSize()
+    }
+}
+
+extension View {
+    func constrainedSize() -> some View {
+        self.frame(maxWidth: UIDevice.isPhone ? .infinity : 450)
+            .frame(maxHeight: 120)
     }
 }
 
 #Preview {
-    TimerWidget(context: PersistenceController.preview.container.viewContext)
+    let timerViewModel = TimerViewModel(context: PersistenceController.preview.container.viewContext)
+
+    TimerWidget(viewModel: timerViewModel)
 }
