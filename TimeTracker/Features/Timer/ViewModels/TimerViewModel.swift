@@ -22,45 +22,75 @@ class TimerViewModel: ObservableObject {
     @Published var selectedClient: Client? {
         didSet {
             self.selectedProject = nil // Reset project when client changes
-//            objectWillChange.send()
         }
     }
 
     @Published var selectedProject: Project?
 
+    private var timer: Timer?
+    private var startTime: Date?
+    private var duration: TimeInterval = 0
     private let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
         self.context = context
     }
 
+    // MARK: - Timer Control
+
     func toggleTimer() {
-        if self.currentTask != nil {
-            if self.isRunning {
-                self.stopTimer()
-            } else {
-                self.startTimer()
-            }
+        if self.isRunning {
+            self.stopTimer()
+        } else {
+            self.startTimer()
         }
     }
 
     func startTimer() {
-        let task = Task(context: context)
+        guard !self.isRunning else { return }
+//        let task = Task(context: context)
 //        task.client = client
 //        task.project = project
-        task.startTime = Date()
+//        task.startTime = Date()
 
-        try? self.context.save()
-        self.currentTask = task
+//        try? self.context.save()
+//        self.currentTask = task
+
+        self.startTime = Date()
+        self.isRunning = true
+
+        self.timer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
+            self?.updateElapsedTime()
+        }
     }
 
     func stopTimer() {
-        guard let task = currentTask else { return }
-        task.endTime = Date()
-        task.duration = Int64(task.endTime!.timeIntervalSince(task.startTime!))
+        guard self.isRunning else { return }
+//        guard let task = currentTask else { return }
+//        task.endTime = Date()
+//        task.duration = Int64(task.endTime!.timeIntervalSince(task.startTime!))
+//
+//        try? self.context.save()
 
-        try? self.context.save()
+        if let startTime {
+            self.duration += Date().timeIntervalSince(startTime)
+        }
+        self.timer?.invalidate()
+        self.timer = nil
+        self.isRunning = false
+        startTime = nil
     }
+
+    private func updateElapsedTime() {
+        guard let startTime else { return }
+        self.elapsedTime = Date().timeIntervalSince(startTime) + self.duration
+    }
+
+    deinit {
+        timer?.invalidate()
+    }
+
+    // MARK: - CoreData helpers
 
     var availableClients: [Client] {
         // Fetch all clients, sorted by name

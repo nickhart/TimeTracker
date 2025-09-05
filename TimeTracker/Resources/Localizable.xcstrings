@@ -1,0 +1,45 @@
+{
+  "sourceLanguage" : "en",
+  "strings" : {
+    "Clients" : {
+
+    },
+    "Dashboard" : {
+
+    },
+    "Hello, World!" : {
+
+    },
+    "None" : {
+
+    },
+    "None available" : {
+
+    },
+    "Pause timer" : {
+
+    },
+    "Pauses the current timer" : {
+
+    },
+    "Settings" : {
+
+    },
+    "Start timer" : {
+
+    },
+    "Starts timing the current task" : {
+
+    },
+    "Task name" : {
+
+    },
+    "TimeTracker" : {
+
+    },
+    "What's happening?" : {
+
+    }
+  },
+  "version" : "1.0"
+}

@@ -16,18 +16,26 @@ struct TimerWidget: View {
     }
 
     var body: some View {
-        VStack {
-            HStack {
+        VStack(spacing: 10) {
+            HStack(spacing: 10) {
                 TextField(
                     "Task name",
                     text: self.$viewModel.taskName,
                     prompt: Text("What's happening?").foregroundColor(.secondary)
                 )
-                Button(self.viewModel.isRunning ? "Stop" : "Start") {
+                Text(self.viewModel.elapsedTime.formattedDuration)
+                Button(action: {
                     self.viewModel.toggleTimer()
-                }
+                }, label: {
+                    Image(systemName: self.viewModel.isRunning ? "stop.circle.fill" : "play.circle.fill")
+                })
+                .accessibilityLabel(self.viewModel.isRunning ? "Pause timer" : "Start timer")
+                .accessibilityHint(self.viewModel
+                    .isRunning ? "Pauses the current timer" : "Starts timing the current task"
+                )
+                .accessibilityIdentifier("timer-control-button")
             }
-            HStack {
+            HStack(spacing: 10) {
                 SelectionMenu(
                     title: "Select Client",
                     items: self.viewModel.availableClients,
@@ -42,6 +50,7 @@ struct TimerWidget: View {
                 )
             }
         }
+        .padding(10)
     }
 }
 

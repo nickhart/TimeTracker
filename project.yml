@@ -22,9 +22,7 @@ targets:
       - TimeTracker/Features/
       - TimeTracker/Shared/
       - TimeTracker/LiveActivity/
-    resources:
-      - TimeTracker/Resources/Assets.xcassets
-      - TimeTracker/Core/Data/TimeTracker.xcdatamodeld
+      - TimeTracker/Resources
     info:
       path: TimeTracker/Resources/Info.plist
       properties:
