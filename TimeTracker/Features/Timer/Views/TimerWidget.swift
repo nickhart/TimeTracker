@@ -9,7 +9,9 @@ import CoreData
 import SwiftUI
 
 struct TimerWidget: View {
-    @StateObject var viewModel: TimerViewModel
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dataServices) private var dataServices
+    @StateObject private var viewModel: TimerViewModel = .init()
 
     var body: some View {
         VStack(spacing: 8) {
@@ -59,7 +61,8 @@ extension View {
 }
 
 #Preview {
-    let timerViewModel = TimerViewModel(context: PersistenceController.preview.container.viewContext)
-
-    TimerWidget(viewModel: timerViewModel)
+    let context = PersistenceController.preview.container.viewContext
+    TimerWidget()
+        .environment(\.managedObjectContext, context)
+        .environment(\.dataServices, DataServices(context: context))
 }

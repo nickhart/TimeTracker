@@ -1,24 +1,24 @@
 //
-//  ClientsSection.swift
+//  ProjectsOverviewCard.swift
 //  TimeTracker
 //
-//  Created by Nick Hart on 9/3/25.
+//  Created by Nick Hart on 9/5/25.
 //
 
 import SwiftUI
 
-struct ClientsSection: View {
+struct ProjectsOverviewCard: View {
     @Environment(\.managedObjectContext) private var context
     @Environment(\.dataServices) private var dataServices
 
     var body: some View {
-        Text("Clients Section")
+        Text("Projects Overview Card")
     }
 }
 
 #Preview {
     let context = PersistenceController.preview.container.viewContext
-    ClientsSection()
+    ProjectsOverviewCard()
         .environment(\.managedObjectContext, context)
         .environment(\.dataServices, DataServices(context: context))
 }

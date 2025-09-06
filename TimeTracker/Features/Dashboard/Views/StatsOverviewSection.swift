@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct StatsOverviewSection: View {
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dataServices) private var dataServices
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Stats Overview")
     }
 }
 
 #Preview {
+    let context = PersistenceController.preview.container.viewContext
     StatsOverviewSection()
+        .environment(\.managedObjectContext, context)
+        .environment(\.dataServices, DataServices(context: context))
 }

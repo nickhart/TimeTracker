@@ -1,7 +1,28 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "Active Projects" : {
+
+    },
+    "Add Client" : {
+
+    },
+    "Client Dashboard View" : {
+
+    },
+    "Client Projects Section" : {
+
+    },
+    "Client Stats Section" : {
+
+    },
     "Clients" : {
+
+    },
+    "Clients Overview Card" : {
+
+    },
+    "Clients Section" : {
 
     },
     "Dashboard" : {
@@ -22,6 +43,15 @@
     "Pauses the current timer" : {
 
     },
+    "Projects Overview Card" : {
+
+    },
+    "Recent Activity Card" : {
+
+    },
+    "Recent Tasks" : {
+
+    },
     "Settings" : {
 
     },
@@ -31,10 +61,19 @@
     "Starts timing the current task" : {
 
     },
+    "Stats Overview" : {
+
+    },
     "Task name" : {
 
     },
+    "Time Stats Card" : {
+
+    },
     "TimeTracker" : {
+
+    },
+    "Unassigned Tasks Section" : {
 
     },
     "What's happening?" : {

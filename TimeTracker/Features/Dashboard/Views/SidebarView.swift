@@ -14,9 +14,9 @@ enum SidebarItem: Hashable {
 }
 
 struct SidebarView: View {
-    @FetchRequest(
-        sortDescriptors: [NSSortDescriptor(keyPath: \Client.name, ascending: true)]
-    ) private var clients: FetchedResults<Client>
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dataServices) private var dataServices
+
     @State private var selectedItem: SidebarItem? = .dashboard
 
     var body: some View {
@@ -33,11 +33,11 @@ struct SidebarView: View {
 
             // Clients section
             Section("Clients") {
-                ForEach(self.clients) { client in
-                    NavigationLink(value: SidebarItem.client(client)) {
-                        Label(client.name ?? "Unnamed", systemImage: "person.circle")
-                    }
-                }
+//                ForEach(self.clients) { client in
+//                    NavigationLink(value: SidebarItem.client(client)) {
+//                        Label(client.name ?? "Unnamed", systemImage: "person.circle")
+//                    }
+//                }
             }
         }
         .navigationTitle("TimeTracker")
@@ -45,6 +45,8 @@ struct SidebarView: View {
 }
 
 #Preview {
+    let context = PersistenceController.preview.container.viewContext
     SidebarView()
-        .environment(\.managedObjectContext, PersistenceController.preview.container.viewContext)
+        .environment(\.managedObjectContext, context)
+        .environment(\.dataServices, DataServices(context: context))
 }

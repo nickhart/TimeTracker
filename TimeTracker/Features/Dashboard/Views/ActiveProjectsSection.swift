@@ -8,11 +8,17 @@
 import SwiftUI
 
 struct ActiveProjectsSection: View {
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dataServices) private var dataServices
+
     var body: some View {
-        Text(/*@START_MENU_TOKEN@*/"Hello, World!"/*@END_MENU_TOKEN@*/)
+        Text("Active Projects")
     }
 }
 
 #Preview {
+    let context = PersistenceController.preview.container.viewContext
     ActiveProjectsSection()
+        .environment(\.managedObjectContext, context)
+        .environment(\.dataServices, DataServices(context: context))
 }

@@ -6,16 +6,19 @@
 //
 
 import CoreData
-import Foundation
+import SwiftUI
 
 class TimerViewModel: ObservableObject {
+    @Environment(\.dataServices) private var dataServices
+
     @Published var currentTask: Task?
     @Published var elapsedTime: TimeInterval = 0
     @Published var isRunning: Bool = false
     @Published var taskName: String = "" {
         didSet {
-            self.currentTask?.name = self.taskName
-            try? self.context.save()
+            if let task = currentTask {
+                self.dataServices?.taskService.updateTask(task, name: self.taskName)
+            }
         }
     }
 
@@ -30,11 +33,6 @@ class TimerViewModel: ObservableObject {
     private var timer: Timer?
     private var startTime: Date?
     private var duration: TimeInterval = 0
-    private let context: NSManagedObjectContext
-
-    init(context: NSManagedObjectContext) {
-        self.context = context
-    }
 
     // MARK: - Timer Control
 
@@ -93,9 +91,6 @@ class TimerViewModel: ObservableObject {
     // MARK: - CoreData helpers
 
     var availableClients: [Client] {
-        // Fetch all clients, sorted by name
-        let request: NSFetchRequest<Client> = Client.fetchRequest()
-        request.sortDescriptors = [NSSortDescriptor(keyPath: \Client.name, ascending: true)]
-        return (try? self.context.fetch(request)) ?? []
+        self.dataServices?.clientService.fetchAllClients() ?? []
     }
 }

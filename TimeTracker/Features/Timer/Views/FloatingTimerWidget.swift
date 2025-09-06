@@ -9,7 +9,8 @@ import CoreData
 import SwiftUI
 
 struct FloatingTimerWidget: View {
-    @StateObject var viewModel: TimerViewModel
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dataServices) private var dataServices
 
     @State private var position = CGPoint(x: 200, y: 200)
     @State private var isDragging = false
@@ -21,7 +22,7 @@ struct FloatingTimerWidget: View {
 
     var body: some View {
         GeometryReader { geometry in
-            TimerWidget(viewModel: self.viewModel)
+            TimerWidget()
                 .background(.regularMaterial, in: RoundedRectangle(cornerRadius: 16))
                 .overlay(
                     RoundedRectangle(cornerRadius: 16)
@@ -117,7 +118,8 @@ struct FloatingTimerWidget: View {
 }
 
 #Preview {
-    let timerViewModel = TimerViewModel(context: PersistenceController.preview.container.viewContext)
-
-    FloatingTimerWidget(viewModel: timerViewModel)
+    let context = PersistenceController.preview.container.viewContext
+    FloatingTimerWidget()
+        .environment(\.managedObjectContext, context)
+        .environment(\.dataServices, DataServices(context: context))
 }
