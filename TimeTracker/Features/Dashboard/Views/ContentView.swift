@@ -26,6 +26,32 @@ struct ContentView: View {
     }
 }
 
+struct MainNavigationView: View {
+    @Environment(\.managedObjectContext) private var context
+    @Environment(\.dataServices) private var dataServices
+
+    @State private var selection: SidebarItem? = .dashboard
+
+    var body: some View {
+        NavigationSplitView {
+            SidebarView(selection: self.$selection)
+        } detail: {
+            switch self.selection {
+            case .dashboard:
+                RootDashboardView()
+            case .settings:
+                SettingsView()
+            // case .client(let client):
+            //     ClientDashboardView(client: client)
+            default:
+                RootDashboardView()
+            }
+        }
+        .environment(\.managedObjectContext, self.context)
+        .environment(\.dataServices, self.dataServices)
+    }
+}
+
 struct iPadContentView: View {
     @Environment(\.managedObjectContext) private var context
     @Environment(\.dataServices) private var dataServices
@@ -34,23 +60,9 @@ struct iPadContentView: View {
 
     var body: some View {
         ZStack {
-            NavigationSplitView {
-                SidebarView(selection: self.$selection)
-            } detail: {
-                switch self.selection {
-                case .dashboard:
-                    RootDashboardView()
-                case .settings:
-                    SettingsView()
-//                case .client(let client):
-//                    ClientDashboardView(client: client)
-                default:
-                    RootDashboardView() // Default
-                }
-            }
-            .environment(\.managedObjectContext, self.context)
-            .environment(\.dataServices, self.dataServices)
-
+            MainNavigationView()
+                .environment(\.managedObjectContext, self.context)
+                .environment(\.dataServices, self.dataServices)
             FloatingTimerWidget() // Floating over everything
         }
     }
@@ -62,12 +74,9 @@ struct iPhoneContentView: View {
 
     var body: some View {
         VStack {
-            NavigationStack {
-                RootDashboardView()
-            }
-            .environment(\.managedObjectContext, self.context)
-            .environment(\.dataServices, self.dataServices)
-
+            MainNavigationView()
+                .environment(\.managedObjectContext, self.context)
+                .environment(\.dataServices, self.dataServices)
             TimerWidget() // Static at bottom
         }
     }
