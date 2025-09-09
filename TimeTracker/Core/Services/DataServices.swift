@@ -13,6 +13,7 @@ class DataServices {
     let clientService: ClientService
     let projectService: ProjectService
     let taskService: TaskService
+    let settingsService: SettingsService
     let context: NSManagedObjectContext
 
     init(context: NSManagedObjectContext) {
@@ -20,6 +21,7 @@ class DataServices {
         self.clientService = ClientService(context: context)
         self.projectService = ProjectService(context: context)
         self.taskService = TaskService(context: context)
+        self.settingsService = SettingsService(context: context)
     }
 
     // Coordinated operations with single save

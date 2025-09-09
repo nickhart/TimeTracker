@@ -15,6 +15,7 @@ struct TimeTrackerApp: App {
     var body: some Scene {
         WindowGroup {
             ContentView()
+                .environment(\.managedObjectContext, self.persistenceController.container.viewContext)
         }
     }
 }

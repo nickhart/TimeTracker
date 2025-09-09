@@ -1,10 +1,28 @@
 {
   "sourceLanguage" : "en",
   "strings" : {
+    "1 hour" : {
+
+    },
+    "1 minute" : {
+
+    },
+    "5 minutes" : {
+
+    },
+    "10 minutes" : {
+
+    },
+    "15 minutes" : {
+
+    },
+    "30 minutes" : {
+
+    },
     "Active Projects" : {
 
     },
-    "Add Client" : {
+    "Auto-pause after" : {
 
     },
     "Client Dashboard View" : {
@@ -16,31 +34,22 @@
     "Client Stats Section" : {
 
     },
-    "Clients" : {
-
-    },
     "Clients Overview Card" : {
 
     },
     "Clients Section" : {
 
     },
-    "Dashboard" : {
+    "Default hourly rate" : {
 
     },
     "Hello, World!" : {
 
     },
-    "None" : {
+    "min" : {
 
     },
-    "None available" : {
-
-    },
-    "Pause timer" : {
-
-    },
-    "Pauses the current timer" : {
+    "Notification settings" : {
 
     },
     "Projects Overview Card" : {
@@ -52,25 +61,10 @@
     "Recent Tasks" : {
 
     },
-    "Settings" : {
-
-    },
-    "Start timer" : {
-
-    },
-    "Starts timing the current task" : {
-
-    },
     "Stats Overview" : {
 
     },
-    "Task name" : {
-
-    },
     "Time Stats Card" : {
-
-    },
-    "TimeTracker" : {
 
     },
     "Unassigned Tasks Section" : {

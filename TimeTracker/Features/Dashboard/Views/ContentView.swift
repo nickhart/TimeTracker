@@ -15,9 +15,11 @@ struct ContentView: View {
         Group {
             if UIDevice.isPhone {
                 iPhoneContentView()
+                    .environment(\.managedObjectContext, self.context)
                     .environment(\.dataServices, DataServices(context: self.context))
             } else {
                 iPadContentView()
+                    .environment(\.managedObjectContext, self.context)
                     .environment(\.dataServices, DataServices(context: self.context))
             }
         }
@@ -28,13 +30,26 @@ struct iPadContentView: View {
     @Environment(\.managedObjectContext) private var context
     @Environment(\.dataServices) private var dataServices
 
+    @State private var selection: SidebarItem? = .dashboard
+
     var body: some View {
         ZStack {
             NavigationSplitView {
-                SidebarView()
+                SidebarView(selection: self.$selection)
             } detail: {
-                RootDashboardView()
+                switch self.selection {
+                case .dashboard:
+                    RootDashboardView()
+                case .settings:
+                    SettingsView()
+//                case .client(let client):
+//                    ClientDashboardView(client: client)
+                default:
+                    RootDashboardView() // Default
+                }
             }
+            .environment(\.managedObjectContext, self.context)
+            .environment(\.dataServices, self.dataServices)
 
             FloatingTimerWidget() // Floating over everything
         }
@@ -50,6 +65,8 @@ struct iPhoneContentView: View {
             NavigationStack {
                 RootDashboardView()
             }
+            .environment(\.managedObjectContext, self.context)
+            .environment(\.dataServices, self.dataServices)
 
             TimerWidget() // Static at bottom
         }

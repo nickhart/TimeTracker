@@ -14,7 +14,7 @@ struct RootDashboardView: View {
     var body: some View {
         VStack {
             HStack {
-                Button("Add Client") { /* Create client */ }
+                Button("Add Client") {}
                     .buttonStyle(.borderedProminent)
 
 //                Button("New Project") { /* Create project */ }

@@ -17,10 +17,10 @@ struct SidebarView: View {
     @Environment(\.managedObjectContext) private var context
     @Environment(\.dataServices) private var dataServices
 
-    @State private var selectedItem: SidebarItem? = .dashboard
+    @Binding var selection: SidebarItem?
 
     var body: some View {
-        List(selection: self.$selectedItem) {
+        List(selection: self.$selection) {
             // Always-present navigation items
             Section {
                 NavigationLink(value: SidebarItem.dashboard) {
@@ -46,7 +46,7 @@ struct SidebarView: View {
 
 #Preview {
     let context = PersistenceController.preview.container.viewContext
-    SidebarView()
+    SidebarView(selection: .constant(.dashboard))
         .environment(\.managedObjectContext, context)
         .environment(\.dataServices, DataServices(context: context))
 }
